@@ -1,0 +1,153 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Satsang</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Ubuntu:wght@300&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="{%static 'index.css' %}">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+
+      <a class="nav-link" href="{%url 'index'%}"><img src="/static/images/logo.png"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href=""><strong>Home</strong> </a>
+          </li>
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{%url 'user_profile'%}"><strong>Profile</strong></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link login-register" href="{% url 'logout'%}"><strong>Logout</strong> </a>
+          </li>
+          {% else %}
+          <li class="nav-item active">
+            <a class="nav-link login-register" href="{% url 'login'%}"><strong>Login</strong> </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link login-register" href="{%url 'register'%}"><strong>Register</strong></a>
+          </li>
+          {%endif%}
+        </ul>
+      </div>
+    </nav>
+    {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+    
+
+          <div class="container-fluid">
+
+            <h2 class="">Welcome Mr. {{user.familyhead.full_name}}</h1>
+              <div class="row">
+                <div class="col">
+                  <div class="col-md">
+                    <div class="card text-center bg-primary text-white  mb-3" id="total-orders">
+                      <div class="card-header">
+                        <h5 class="card-title">Total Families</h5>
+                      </div>
+                      <div class="card-body">
+                        <h3 class="card-title">{{head_count}}</h3>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="col-md">
+                  <div class="card text-center bg-info text-white  mb-3" id="total-orders">
+                    <div class="card-header">
+                      <h5 class="card-title">Total Family Members Initiated</h5>
+                    </div>
+                    <div class="card-body">
+                      <h3 class="card-title">{{init_count}}</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+        
+          </div>
+            <!-- Nav Bar -->
+    
+    <div class="welcome">
+        
+        <div class="col-md-12">
+          
+          <table class='table table-sm top-search'>
+            <tr>
+          <td>
+            <h2>Satsang Families</h2>
+          </td>
+          <td>
+            <form class="search-bar" action="/" method="GET" id="search-form">
+              <input type="search-name" class="contact-search" name="search-area" placeholder="Search" value="{{search_input}}">
+              <button class="btn btn-md btn-info search-button" type="submit">Search</button>
+            </form>
+          </td>
+        </tr>
+      </table>
+      
+    </div>
+      <hr>
+      
+      <div class="card card-body">
+        
+        <table class="table table-sm">
+          <tr>
+            <th>Family Head</th>
+            <th>Email</th>
+            <th>Family Code</th>
+            <th>Details</th>
+          </tr>
+          {%for h in head%}
+          <tr>
+            <td>{{h.full_name}}</td>
+            <td>{{h.email}}</td>
+            <td>{{h.family_code}}</td>
+            <td><a class="btn btn-sm btn-info" href="{%url 'view_profile' h.id%}">View</a></td>
+          </tr>
+          {%endfor%}
+        </table>
+      </div>
+    </div>
+    
+  </div>
+  
+    
+  </body>
+  
+  </html>

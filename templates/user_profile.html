@@ -1,0 +1,183 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Add Member</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Ubuntu:wght@300&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{%static 'user_profile.css' %}">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="nav-link" href="{% url 'index'%}"><img src="/static/images/logo.png"></a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+           <span class="navbar-toggler-icon"></span>
+         </button>
+         <div class="collapse navbar-collapse" id="navbarNav">
+           <ul class="navbar-nav">
+             <li class="nav-item active">
+               <a class="nav-link" href="{% url 'index'%}"><strong>Home</strong> </a>
+             </li>
+             {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{%url 'user_profile'%}"><strong>Profile</strong></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link login-register" href="{% url 'logout'%}"><strong>Logout</strong> </a>
+          </li>
+          {% else %}
+          <li class="nav-item active">
+            <a class="nav-link login-register" href="{% url 'login'%}"><strong>Login</strong> </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link login-register" href="{%url 'register'%}"><strong>Register</strong></a>
+          </li>
+          {%endif%}
+           </ul>
+         </div>
+       </nav>
+
+       {% if messages %}
+       {% for message in messages %}
+         <div class="alert alert-{{ message.tags }}">
+           {{ message }}
+         </div>
+       {% endfor %}
+     {% endif %}
+
+<section class="family-head">
+    <h2>Family Details</h2>
+    <div class="card card-head">
+        <div class="card-header">
+            <i class="fab fa-html5"></i>{{user.familyhead.full_name | title}}
+        </div>
+        <div class="card-body">
+            <strong>Date of Birth: </strong><p>{{user.familyhead.birthday | title}}</p>
+            <strong>Family Code: </strong><p>{{user.familyhead.family_code | title}}</p>
+            <strong>Ritwik: </strong><p>{{user.familyhead.ritwik | title}}</p>
+            <strong>Phone Number: </strong><p>{{user.familyhead.phone_number | title}}</p>
+            <strong>Email: </strong><p>{{user.familyhead.email                                         }}</p>
+            <strong>Address: </strong><p>{{user.familyhead.address | title}}</p>
+            <strong>Date of Initation: </strong><p>{{user.familyhead.date_of_init | title}}</p>
+        </div>
+        <div class="card-footer">
+        <div class="clearfix">
+            <div class="float-left">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            <div class="float-right">
+                <a class="btn btn-success profile-btn" href="{%url 'update_head'%}">Update</a>
+            </div>
+        </div>
+        </div>
+    </div>
+
+</section>
+<hr>
+<div class="add-member">
+    <div class="add-section">
+
+        <table cellspacing = "10" >
+            <tr>
+            <td> 
+                <h2 class>Family Members</h2>
+            </td>
+            <td>
+                <a class="btn btn-md btn-info" href="{%url 'add_member'%}">Add Family member</a>
+            </td>
+        </tr>
+        
+    </table>
+</div>
+    <div class="container-fluid">
+          <div class="row">
+            <div class="col">
+              <div class="col-md">
+                <div class="card text-center bg-primary text-white  mb-3" id="total-orders">
+                  <div class="card-header">
+                    <h5 class="card-title">Total family members</h5>
+                  </div>
+                  <div class="card-body">
+                    <h3 class="card-title">{{user.familyhead.familymembers_set.all.count}}</h3>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="col-md">
+              <div class="card text-center bg-info text-white  mb-3" id="total-orders">
+                <div class="card-header">
+                  <h5 class="card-title">Total Family Members Initiated</h5>
+                </div>
+                <div class="card-body">
+                  <h3 class="card-title">{{init_count}}</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+    
+    </div>
+
+
+    <section class="family-members">
+    <div class="container">
+        <div class="row justify-content-left">
+            <div class="col-12 col-lg-8">
+                <div class="lista">
+                <ul>
+                    {%for member in user.familyhead.familymembers_set.all%}
+                    <li type="none">
+                        <div class="card card-html">
+                            <div class="card-header">
+                                <i class="fab fa-html5"></i>{{member.full_name | title}}
+                            </div>
+                            <div class="card-body">
+                                <strong>Age: </strong><p>{{member.age | title}}</p>
+                                <strong>Phone Number: </strong><p>{{member.phone_number | title}}</p>
+                                <strong>Email: </strong><p>{{member.email}}</p>
+                                <strong>Relation: </strong><p>{{member.relationship | title}}</p>
+                                <strong>Address: </strong><p>{{member.address | title}}</p>
+                                <strong>Taken Initiation: </strong><p>{{member.initiation | title}}</p>
+                            </div>
+                            <div class="card-footer">
+                            <div class="clearfix">
+                                <div class="float-left">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <div class="float-right">
+                                    <a class="btn btn-success profile-btn" href="{%url 'update_family_member' member.id%}">Update</a>
+                                </div>
+                                <div class="float-right">
+                                    <a class="btn btn-danger" href="{%url 'delete_family_member' member.id%}">Delete</a>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </li>
+                    {%endfor%}
+                </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+</body>
+</html>

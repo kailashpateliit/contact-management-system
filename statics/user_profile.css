@@ -1,0 +1,26 @@
+
+.card-html{
+    margin: 10px 0;
+}
+
+.profile-btn{
+    margin: 0 7px;
+}
+
+.card-head{
+    margin: 1.5em 3em;
+}
+.familly-head{
+    margin: 0 auto;
+}
+.add-member{
+    display: inline-block;
+    margin: auto;
+}
+.btn-info{
+    margin-left: 3em;
+}
+.add-section{
+    margin: 3rem;
+    padding: 0.2rem;
+}
